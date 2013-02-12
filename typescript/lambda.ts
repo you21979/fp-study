@@ -19,7 +19,7 @@ export var player2:Function =
                     name:string
                     )=>f.thunk(()=>new Player.Class(charaid,level,hp,hp,name))
                 );
-Player.Notify()
+Player.notify()
     .on("level", (p:any):void=>{
         console.log("levelup");
     })

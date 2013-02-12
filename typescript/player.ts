@@ -1,21 +1,37 @@
+/**
+ *  プレイヤー
+ */
 ///<reference path='node.d'/>
 import node = module("node");
+/**
+ *  EventEmitter
+ */
 export class Emitter extends node.EventEmitter {
-    constructor(){ super(); }
-}
-var _notify:Emitter = null;
-export function Notify():Emitter{
-    if(!_notify){
-        _notify = new Emitter();
+    constructor(){
+        super();
+        this.init();
     }
-    return _notify;
+    private init():void{
+        this 
+            .on("level", (p:any):void=>{
+                p.self.setMaxHp(p.n * 200 - p.o);
+            })
+        ;
+    }
 }
-Notify()
-    .on("level", (p:any):void=>{
-        p.self.setMaxHp(p.n * 200 - p.o);
-    })
-;
-
+var s_notify:Emitter = null; // 通知クラス
+/**
+ *  通知用イベントエミッタープロキシ
+ */
+export function notify():Emitter{
+    if(!s_notify){
+        s_notify = new Emitter();
+    }
+    return s_notify;
+}
+/**
+ *  オブジェクト
+ */
 export class Class {
     constructor(
         public charaid:number,
@@ -23,13 +39,12 @@ export class Class {
         public maxhp:number,
         public hp:number,
         public name:string
-    ){
-    }
+    ){}
     public setLevel(n:number){
         var o:number = this.level;
         if(o !== n){
             this.level = n;
-            Notify().emit("level", {self:this, n:n, o:o});
+            notify().emit("level", {self:this, n:n, o:o});
         }
         return this;
     }
@@ -37,7 +52,7 @@ export class Class {
         var o:string = this.name;
         if(o !== n){
             this.name = n;
-            Notify().emit("name", {self:this, n:n, o:o});
+            notify().emit("name", {self:this, n:n, o:o});
         }
         return this;
     }
@@ -45,7 +60,7 @@ export class Class {
         var o:number = this.hp;
         if(o !== n){
             this.hp = n;
-            Notify().emit("hp", {self:this, n:n, o:o});
+            notify().emit("hp", {self:this, n:n, o:o});
         }
         return this;
     }
@@ -53,7 +68,7 @@ export class Class {
         var o:number = this.maxhp;
         if(o !== n){
             this.maxhp = n;
-            Notify().emit("maxhp", {self:this, n:n, o:o});
+            notify().emit("maxhp", {self:this, n:n, o:o});
         }
         return this;
     }
