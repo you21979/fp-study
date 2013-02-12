@@ -1,11 +1,4 @@
-class Lambda{
-    constructor(public fn:Function){}
-}
-class Thunk{
-    constructor(public val:Function){}
-}
-function lambda(fn:Function):Function{ return new Lambda(fn).fn; }
-function thunk(val:Function):Function{ return new Thunk(val).val; }
+import f = module("fp");
 
 class Player{
     constructor(
@@ -17,11 +10,11 @@ class Player{
 }
 
 var player:Function =
-                lambda((charaid:number)=>
-                    lambda((level:number)=>
-                        lambda((hp:number)=>
-                            lambda((name:string)=>
-                                thunk(()=>new Player(charaid,level,hp,name))
+                f.lambda((charaid:number)=>
+                    f.lambda((level:number)=>
+                        f.lambda((hp:number)=>
+                            f.lambda((name:string)=>
+                                f.thunk(()=>new Player(charaid,level,hp,name))
                             )
                         )
                     )
@@ -31,5 +24,5 @@ var player:Function =
 console.log(player(1)(10)(120)("hoge")());
 
 // 関数
-console.log(lambda((x)=>lambda((y)=>x * y))(5)(2));
+console.log(f.lambda((x)=>f.lambda((y)=>x * y))(5)(2));
 
