@@ -40,3 +40,5 @@ console.log(player2(1,10,120,"hoge")());
 // 関数
 console.log(f.lambda((x)=>f.lambda((y)=>x * y))(5)(2));
 
+console.log(Player.notify());
+
