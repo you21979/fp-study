@@ -4,6 +4,10 @@
 ///<reference path='node.d'/>
 import node = module("node");
 
+var MAXVALUE = {
+    HP : 9999
+};
+
 /**
  *  レベルアップ処理
  */
@@ -54,6 +58,7 @@ export function notify():Emitter{
  *  オブジェクト
  */
 export class Class {
+    public conn:any = null;
     constructor(
         public charaid:number,
         public level:number,
@@ -79,14 +84,16 @@ export class Class {
     }
     public setHp(n:number){
         var o:number = this.hp;
+        n = clamp(n, this.maxhp, 0);
         if(o !== n){
-            this.hp = clamp(n, this.maxhp, 0);
+            this.hp = n;
             notify().emit("hp", {self:this, n:n, o:o});
         }
         return this;
     }
     public setMaxHp(n:number){
         var o:number = this.maxhp;
+        n = clamp(n, MAXVALUE.HP, 0);
         if(o !== n){
             this.maxhp = n;
             notify().emit("maxhp", {self:this, n:n, o:o});
