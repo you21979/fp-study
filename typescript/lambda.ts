@@ -34,8 +34,8 @@ Player.notify()
     })
 ;
 // クラス
-console.log(player1(1)(10)(120)("hoge")().setLevel(11));
-console.log(player2(1,10,120,"hoge")());
+console.log(player1(1)(10)(120)("hoge")().setLevel(11).setHp(10000));
+console.log(player2(1,10,120,"hoge")().setHp(-1));
 
 // 関数
 console.log(f.lambda((x)=>f.lambda((y)=>x * y))(5)(2));

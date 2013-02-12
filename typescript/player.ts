@@ -10,6 +10,12 @@ import node = module("node");
 export function levelup(self:Class,n:number,o:number):void{
     self.setMaxHp(n * 200 - o);
 }
+/**
+ *  処理
+ */
+export function clamp(val:number,max:number,min:number):number{
+    return Math.max(min, Math.min(val,max));
+}
 
 /**
  *  EventEmitter
@@ -74,7 +80,7 @@ export class Class {
     public setHp(n:number){
         var o:number = this.hp;
         if(o !== n){
-            this.hp = n;
+            this.hp = clamp(n, this.maxhp, 0);
             notify().emit("hp", {self:this, n:n, o:o});
         }
         return this;
